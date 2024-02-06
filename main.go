@@ -13,8 +13,8 @@ func main() {
 	app := fiber.New()
 
 	db := database.InitalDB()
-	_ = db
 
+	database.RunMigrations(db)
 	app.Use(logger.New())
 
 	app.Use(cors.New())

@@ -1,6 +1,8 @@
 package database
 
 import (
+	"go_game/database/models"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,4 +17,12 @@ func InitalDB() *gorm.DB {
 
 	return db
 
+}
+func RunMigrations(db *gorm.DB) error {
+	err := db.Transaction(func(d *gorm.DB) error {
+		err := d.AutoMigrate(&models.Items{})
+		return err
+	})
+
+	return err
 }

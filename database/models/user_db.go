@@ -1,4 +1,4 @@
-package repository
+package models
 
 import (
 	"time"
@@ -13,14 +13,14 @@ type UserRepository interface {
 }
 
 type User struct {
-	GameID         uint      `gorm:"autoIncrement"`
-	UserID         uuid.UUID `gorm:"primaryKey;default:uuid_generate_v4();"`
-	UID            string    `gorm:"not null;size:255;"`
-	PlayerName     string    `gorm:"size:30"`
-	Language       string
-	Coin           int `gorm:"default:0;"`
-	AqPoint        int `gorm:"default:0;"`
-	FishFoodAmount int
+	GameID     uint      `gorm:"autoIncrement"`
+	UserID     uuid.UUID `gorm:"primaryKey;default:uuid_generate_v4();"`
+	UID        string    `gorm:"not null;size:255;"`
+	PlayerName string    `gorm:"size:30"`
+	Language   string
+	Coin       int `gorm:"default:0;"`
+	AqPoint    int `gorm:"default:0;"`
+
 	TotalTicket    int
 	TotalExp       int
 	Level          int `gorm:"not null;default:1"`
