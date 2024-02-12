@@ -11,8 +11,12 @@ type gormPlayerRepository struct {
 }
 
 // Create implements core.PlayerRepository.
-func (*gormPlayerRepository) Create(player core.Player) error {
-	panic("unimplemented")
+func (r *gormPlayerRepository) Create(player core.Player) error {
+	if result := r.db.Create(&player); result.Error != nil {
+		// Handle database errors
+		return result.Error
+	}
+	return nil
 }
 
 // Delete implements core.PlayerRepository.
@@ -37,12 +41,4 @@ func (*gormPlayerRepository) Update(player core.Player) error {
 
 func NewGormPlayerRepository(db *gorm.DB) core.PlayerRepository {
 	return &gormPlayerRepository{db: db}
-}
-
-func (r *gormPlayerRepository) Save(player core.Player) error {
-	if result := r.db.Create(&player); result.Error != nil {
-		// Handle database errors
-		return result.Error
-	}
-	return nil
 }
