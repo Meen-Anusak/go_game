@@ -1,4 +1,4 @@
-package game_model
+package crm_model
 
 import (
 	"time"

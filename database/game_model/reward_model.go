@@ -2,6 +2,7 @@ package game_model
 
 import (
 	"github.com/google/uuid"
+	"go_game/database/crm_model"
 	"gorm.io/gorm"
 	"time"
 )
@@ -15,8 +16,8 @@ type Reward struct {
 	CampaignId  uuid.UUID
 	Campaign    Campaign `gorm:"ForeignKey:CampaignId"`
 	BrandId     uuid.UUID
-	Brand       Brand     `gorm:"ForeignKey:BrandId"`
-	CreatedAt   time.Time `gorm:"autoTimeCreate;"`
-	UpdatedAt   time.Time `gorm:"autoTimeUpdate;"`
+	Brand       crm_model.Brand `gorm:"ForeignKey:BrandId"`
+	CreatedAt   time.Time       `gorm:"autoTimeCreate;"`
+	UpdatedAt   time.Time       `gorm:"autoTimeUpdate;"`
 	DeletedAt   gorm.DeletedAt
 }

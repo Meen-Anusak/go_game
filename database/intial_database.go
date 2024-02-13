@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"go_game/database/game_model"
 	"log"
 	"os"
 
@@ -46,15 +45,15 @@ func NewDatabase() (*gorm.DB, error) {
 func RunMigrations(db *gorm.DB) error {
 	err := db.Transaction(func(tx *gorm.DB) error {
 		err := tx.AutoMigrate(
-			&game_model.Brand{},
-			&game_model.Campaign{},
-			&game_model.GameConfig{},
-			&game_model.Game{},
-			&game_model.Reward{},
-			&game_model.Player{},
-			&game_model.PlayerRewardLog{},
-			&game_model.PlayerActivityGameLog{},
-			&game_model.LeaderBoardEntry{},
+		//&crm_model.Brand{},
+		//&game_model.Campaign{},
+		//&game_model.GameConfig{},
+		//&game_model.Game{},
+		//&game_model.Reward{},
+		//&game_model.Player{},
+		//&game_model.PlayerRewardLog{},
+		//&game_model.PlayerActivityGameLog{},
+		//&game_model.LeaderBoardEntry{},
 		)
 
 		return err
