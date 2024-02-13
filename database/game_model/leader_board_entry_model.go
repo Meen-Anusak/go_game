@@ -1,4 +1,4 @@
-package database
+package game_model
 
 import (
 	"github.com/google/uuid"

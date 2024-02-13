@@ -24,8 +24,8 @@ func (*gormPlayerRepository) Delete(player core.Player) error {
 	panic("unimplemented")
 }
 
-// Get implements core.PlayerRepository.
-func (*gormPlayerRepository) Get(player core.Player) error {
+// GetAll implements core.PlayerRepository.
+func (r *gormPlayerRepository) GetAll(player core.Player) error {
 	panic("unimplemented")
 }
 
@@ -39,6 +39,6 @@ func (*gormPlayerRepository) Update(player core.Player) error {
 	panic("unimplemented")
 }
 
-func NewGormPlayerRepository(db *gorm.DB) core.PlayerRepository {
+func NewGormPlayerRepository(db *gorm.DB) *gormPlayerRepository {
 	return &gormPlayerRepository{db: db}
 }

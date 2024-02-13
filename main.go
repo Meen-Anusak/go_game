@@ -28,8 +28,9 @@ func main() {
 	playerRepo := adapter.NewGormPlayerRepository(db)
 	playerService := core.NewPlayerService(playerRepo)
 	playerHandler := adapter.NewHttpPlayerHandler(playerService)
+	// Player router
 
-	app.Post("/player", playerHandler.CreateNewPlayer)
+	app.Post("/player", playerHandler.CreateNewPlayerHandler)
 
 	app.Listen(":8080")
 

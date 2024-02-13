@@ -15,7 +15,7 @@ func NewHttpPlayerHandler(service core.PlayerService) *HttpPlayerHandler {
 	return &HttpPlayerHandler{service: service}
 }
 
-func (h *HttpPlayerHandler) CreateNewPlayer(ctx *fiber.Ctx) error {
+func (h *HttpPlayerHandler) CreateNewPlayerHandler(ctx *fiber.Ctx) error {
 	var player core.Player
 	if err := ctx.BodyParser(&player); err != nil {
 		fmt.Println(err)
