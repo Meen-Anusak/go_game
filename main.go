@@ -2,8 +2,6 @@ package main
 
 import (
 	"go_game/database"
-	"go_game/game/adapter"
-	"go_game/game/core"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -25,12 +23,12 @@ func main() {
 	}
 
 	// Player APP
-	playerRepo := adapter.NewGormPlayerRepository(db)
-	playerService := core.NewPlayerService(playerRepo)
-	playerHandler := adapter.NewHttpPlayerHandler(playerService)
+	//playerRepo := adapter.NewGormPlayerRepository(db)
+	//playerService := core.NewPlayerService(playerRepo)
+	//playerHandler := adapter.NewHttpPlayerHandler(playerService)
 	// Player router
 
-	app.Post("/player", playerHandler.CreateNewPlayerHandler)
+	//app.Post("/player", playerHandler.CreateNewPlayerHandler)
 
 	app.Listen(":8080")
 
