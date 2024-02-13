@@ -2,29 +2,42 @@ package database
 
 import (
 	"github.com/google/uuid"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+	"time"
 )
 
 type Player struct {
-	PlayerId   uuid.UUID `gorm:"type:uuid;primaryKey;"`
+	PlayerID   uuid.UUID `gorm:"type:uuid;primaryKey;default:uuid_generate_v4()"`
 	PlayerName string    `gorm:"size:15"`
-	*gorm.Model
+	CreatedAt  time.Time `gorm:"autoTimeCreate;"`
+	UpdatedAt  time.Time `gorm:"autoTimeUpdate;"`
+	DeletedAt  gorm.DeletedAt
 }
 
 type PlayerRewardLog struct {
-	PlayerRewardLogId uuid.UUID `gorm:"type:uuid;primaryKey;"`
-	Player            Player
-	Reward            Reward
-	Campaign          Campaign
-	*gorm.Model
+	PlayerRewardLogID uuid.UUID `gorm:"type:uuid;primaryKey;default:uuid_generate_v4()"`
+	PlayerId          uuid.UUID
+	Player            Player `gorm:"ForeignKey:PlayerId"`
+	RewardId          uuid.UUID
+	Reward            Reward `gorm:"ForeignKey:RewardId"`
+	CampaignId        uuid.UUID
+	Campaign          Campaign  `gorm:"ForeignKey:CampaignId"`
+	CreatedAt         time.Time `gorm:"autoTimeCreate;"`
+	UpdatedAt         time.Time `gorm:"autoTimeUpdate;"`
+	DeletedAt         gorm.DeletedAt
 }
 
 type PlayerActivityGameLog struct {
-	PlayerActivityGameLogId uuid.UUID `gorm:"type:uuid;primaryKey;"`
-	Player                  Player
-	Game                    Game
-	Campaign                Campaign
+	PlayerActivityGameLogID uuid.UUID `gorm:"type:uuid;primaryKey;default:uuid_generate_v4()"`
+	PlayerId                uuid.UUID
+	Player                  Player `gorm:"ForeignKey:PlayerId"`
+	GameId                  uuid.UUID
+	Game                    Game `gorm:"ForeignKey:GameId"`
+	CampaignId              uuid.UUID
+	Campaign                Campaign `gorm:"ForeignKey:CampaignId"`
 	Point                   float64
 	Stamina                 int64
-	*gorm.Model
+	CreatedAt               time.Time `gorm:"autoTimeCreate;"`
+	UpdatedAt               time.Time `gorm:"autoTimeUpdate;"`
+	DeletedAt               gorm.DeletedAt
 }

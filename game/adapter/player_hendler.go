@@ -2,8 +2,9 @@ package adapter
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
 	"go_game/game/core"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type HttpPlayerHandler struct {

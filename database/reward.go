@@ -2,16 +2,21 @@ package database
 
 import (
 	"github.com/google/uuid"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+	"time"
 )
 
 type Reward struct {
-	RewardId    uuid.UUID `gorm:"type:uuid;primaryKey;"`
+	RewardID    uuid.UUID `gorm:"type:uuid;primaryKey;default:uuid_generate_v4();"`
 	RewardName  string
 	Description string
 	PointValue  float64
 	Type        string
-	Campaign    Campaign
-	Brand       Brand
-	*gorm.Model
+	CampaignId  uuid.UUID
+	Campaign    Campaign `gorm:"ForeignKey:CampaignId"`
+	BrandId     uuid.UUID
+	Brand       Brand     `gorm:"ForeignKey:BrandId"`
+	CreatedAt   time.Time `gorm:"autoTimeCreate;"`
+	UpdatedAt   time.Time `gorm:"autoTimeUpdate;"`
+	DeletedAt   gorm.DeletedAt
 }

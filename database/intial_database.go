@@ -2,12 +2,13 @@ package database
 
 import (
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"log"
-	"os"
 )
 
 func NewDatabase() (*gorm.DB, error) {
@@ -39,4 +40,24 @@ func NewDatabase() (*gorm.DB, error) {
 	}
 
 	return db, nil
+}
+
+func RunMigrations(db *gorm.DB) error {
+	err := db.Transaction(func(tx *gorm.DB) error {
+		err := tx.AutoMigrate(
+			&Brand{},
+			&Campaign{},
+			&GameConfig{},
+			&Game{},
+			&Reward{},
+			&Player{},
+			&PlayerRewardLog{},
+			&PlayerActivityGameLog{},
+			&LeaderBoardEntry{},
+		)
+
+		return err
+	})
+
+	return err
 }

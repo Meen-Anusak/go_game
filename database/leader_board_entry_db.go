@@ -1,14 +1,19 @@
 package database
 
 import (
-	"github.com/jinzhu/gorm"
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+	"time"
 )
 
 type LeaderBoardEntry struct {
-	LeaderBoardEntryID uuid.UUID `gorm:"type:uuid;primaryKey;"`
-	Player             Player
-	Campaign           Campaign
+	LeaderBoardEntryID uuid.UUID `gorm:"type:uuid;primaryKey;default:uuid_generate_v4()"`
+	PlayerId           uuid.UUID
+	Player             Player `gorm:"ForeignKey:PlayerId"`
+	CampaignId         uuid.UUID
+	Campaign           Campaign `gorm:"ForeignKey:CampaignId"`
 	Score              float64
-	*gorm.Model
+	CreatedAt          time.Time `gorm:"autoTimeCreate;"`
+	UpdatedAt          time.Time `gorm:"autoTimeUpdate;"`
+	DeletedAt          gorm.DeletedAt
 }
