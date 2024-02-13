@@ -22,14 +22,6 @@ func main() {
 		log.Fatal(e)
 	}
 
-	// Player APP
-	//playerRepo := adapter.NewGormPlayerRepository(db)
-	//playerService := core.NewPlayerService(playerRepo)
-	//playerHandler := adapter.NewHttpPlayerHandler(playerService)
-	// Player router
-
-	//app.Post("/player", playerHandler.CreateNewPlayerHandler)
-
 	app.Listen(":8080")
 
 }

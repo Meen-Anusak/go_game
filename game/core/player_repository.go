@@ -1,9 +1,11 @@
 package core
 
+import "github.com/google/uuid"
+
 type PlayerRepository interface {
 	GetAll([]Player) error
-	GetById(id string) (*Player, error)
+	GetById(id uuid.UUID) (*Player, error)
 	Create(player Player) error
-	Update(id string) (*Player, error)
-	Delete(id string) (*Player, error)
+	Update(id uuid.UUID) (*Player, error)
+	Delete(id uuid.UUID) (*Player, error)
 }
