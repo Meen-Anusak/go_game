@@ -14,11 +14,11 @@ func NewHttpPlayerHandler(service *core.PlayerServiceImpl) *HttpPlayerHandler {
 }
 
 func (h *HttpPlayerHandler) GetAllPlayer(ctx *fiber.Ctx) error {
-	_, err := h.service.GetAllPlayer()
+	player, err := h.service.GetAllPlayer()
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Create New Player Success"})
+	return ctx.Status(fiber.StatusOK).JSON(player)
 
 }
 
@@ -30,5 +30,5 @@ func (h *HttpPlayerHandler) CreateNewPlayer(ctx *fiber.Ctx) error {
 	if err := h.service.CreateNewPlayer(player); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return ctx.Status(fiber.StatusCreated).JSON(player)
+	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "Create New Player Success"})
 }
