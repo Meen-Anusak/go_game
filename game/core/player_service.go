@@ -1,44 +1,59 @@
 package core
 
+import (
+	"github.com/google/uuid"
+)
+
 type PlayerService interface {
+	GetAllPlayer() ([]Player, error)
+	GetPlayerById(id uuid.UUID) (*Player, error)
 	CreateNewPlayer(player Player) error
-	GetPlayer([]Player, error)
-	GetPlayerById(player Player) error
-	UpdatePlayer(player Player) error
-	DeletePlayer(player Player) error
 }
 
-type playerServiceImpl struct {
+type PlayerServiceImpl struct {
 	repo PlayerRepository
 }
 
-// GetPlayer implements PlayerService.
-func (s *playerServiceImpl) GetPlayer() ([]Player, error) {
-	panic("unimplemented")
-}
-
-func (s *playerServiceImpl) CreateNewPlayer(player Player) error {
-	if err := s.repo.Create(player); err != nil {
+func (s *PlayerServiceImpl) CreateNewPlayer(player Player) error {
+	if err := s.repo.CreateNewPlayer(player); err != nil {
 		return err
 	}
 	return nil
 }
 
-// DeletePlayer implements PlayerService.
-func (*playerServiceImpl) DeletePlayer(player Player) error {
-	panic("unimplemented")
+func (s *PlayerServiceImpl) GetPlayerById(id uuid.UUID) (*Player, error) {
+	//TODO implement me
+	panic("implement me")
 }
 
-// GetPlayerById implements PlayerService.
-func (*playerServiceImpl) GetPlayerById(player Player) error {
-	panic("unimplemented")
+func (s *PlayerServiceImpl) GetAllPlayer() ([]Player, error) {
+	player, err := s.repo.GetAllPlayer()
+	if err != nil {
+		return nil, err
+	}
+
+	var playerResponses []Player
+
+	for _, player := range player {
+		response := Player{
+			PlayerID:   player.PlayerID,
+			PlayerName: player.PlayerName,
+			CreatedAt:  player.CreatedAt,
+			UpdatedAt:  player.UpdatedAt,
+		}
+		playerResponses = append(playerResponses, response)
+	}
+
+	return playerResponses, nil
 }
 
-// UpdatePlayer implements PlayerService.
-func (*playerServiceImpl) UpdatePlayer(player Player) error {
-	panic("unimplemented")
-}
+//func (s *playerServiceImpl) CreateNewPlayer(player Player) error {
+//	if err := s.repo.Create(player); err != nil {
+//		return err
+//	}
+//	return nil
+//}
 
-func NewPlayerService(repo PlayerRepository) *playerServiceImpl {
-	return &playerServiceImpl{repo: repo}
+func NewPlayerService(repo PlayerRepository) *PlayerServiceImpl {
+	return &PlayerServiceImpl{repo: repo}
 }

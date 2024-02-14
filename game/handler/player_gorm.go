@@ -1,44 +1,46 @@
 package handler
 
 import (
+	"github.com/google/uuid"
 	"go_game/game/core"
-
 	"gorm.io/gorm"
 )
 
-type gormPlayerRepository struct {
+type GormPlayerRepository struct {
 	db *gorm.DB
 }
 
-// Create implements core.PlayerRepository.
-func (r *gormPlayerRepository) Create(player core.Player) error {
+func (r *GormPlayerRepository) GetAllPlayer() ([]core.Player, error) {
+	var player []core.Player
+	if result := r.db.Find(&player); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return player, nil
+}
+
+func (r *GormPlayerRepository) GetPlayerById(id uuid.UUID) (*core.Player, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (r *GormPlayerRepository) CreateNewPlayer(player core.Player) error {
 	if result := r.db.Create(&player); result.Error != nil {
-		// Handle database errors
 		return result.Error
 	}
 	return nil
+
 }
 
-// Delete implements core.PlayerRepository.
-func (*gormPlayerRepository) Delete(player core.Player) error {
-	panic("unimplemented")
-}
+//// Create implements core.PlayerRepository.
+//func (r *GormPlayerRepository) Create(player core.Player) error {
+//	if result := r.db.Create(&player); result.Error != nil {
+//		// Handle database errors
+//		return result.Error
+//	}
+//	return nil
+//}
 
-// GetAll implements core.PlayerRepository.
-func (r *gormPlayerRepository) GetAll(player core.Player) error {
-	panic("unimplemented")
-}
-
-// GetById implements core.PlayerRepository.
-func (*gormPlayerRepository) GetById(player core.Player) error {
-	panic("unimplemented")
-}
-
-// Update implements core.PlayerRepository.
-func (*gormPlayerRepository) Update(player core.Player) error {
-	panic("unimplemented")
-}
-
-func NewGormPlayerRepository(db *gorm.DB) *gormPlayerRepository {
-	return &gormPlayerRepository{db: db}
+func NewGormPlayerRepository(db *gorm.DB) core.PlayerRepository {
+	return &GormPlayerRepository{db: db}
 }
