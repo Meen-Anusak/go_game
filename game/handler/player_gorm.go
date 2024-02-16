@@ -2,7 +2,8 @@ package handler
 
 import (
 	"github.com/google/uuid"
-	"go_game/game/core"
+	"go_game/game/core/domain"
+	"go_game/game/core/repository"
 	"gorm.io/gorm"
 )
 
@@ -10,8 +11,8 @@ type GormPlayerRepository struct {
 	db *gorm.DB
 }
 
-func (r *GormPlayerRepository) GetAllPlayer() ([]core.Player, error) {
-	var player []core.Player
+func (r *GormPlayerRepository) GetAllPlayer() ([]domain.Player, error) {
+	var player []domain.Player
 	if result := r.db.Find(&player); result.Error != nil {
 		return nil, result.Error
 	}
@@ -19,12 +20,12 @@ func (r *GormPlayerRepository) GetAllPlayer() ([]core.Player, error) {
 	return player, nil
 }
 
-func (r *GormPlayerRepository) GetPlayerById(id uuid.UUID) (*core.Player, error) {
+func (r *GormPlayerRepository) GetPlayerById(id uuid.UUID) (*domain.Player, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (r *GormPlayerRepository) CreateNewPlayer(player core.Player) error {
+func (r *GormPlayerRepository) CreateNewPlayer(player domain.Player) error {
 	if result := r.db.Create(&player); result.Error != nil {
 		return result.Error
 	}
@@ -41,6 +42,6 @@ func (r *GormPlayerRepository) CreateNewPlayer(player core.Player) error {
 //	return nil
 //}
 
-func NewGormPlayerRepository(db *gorm.DB) core.PlayerRepository {
+func NewGormPlayerRepository(db *gorm.DB) repository.PlayerRepository {
 	return &GormPlayerRepository{db: db}
 }

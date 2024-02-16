@@ -2,40 +2,42 @@ package core
 
 import (
 	"github.com/google/uuid"
+	"go_game/game/core/domain"
+	"go_game/game/core/repository"
 )
 
 type PlayerService interface {
-	GetAllPlayer() ([]Player, error)
-	GetPlayerById(id uuid.UUID) (*Player, error)
-	CreateNewPlayer(player Player) error
+	GetAllPlayer() ([]domain.Player, error)
+	GetPlayerById(id uuid.UUID) (*domain.Player, error)
+	CreateNewPlayer(player domain.Player) error
 }
 
 type PlayerServiceImpl struct {
-	repo PlayerRepository
+	repo repository.PlayerRepository
 }
 
-func (s *PlayerServiceImpl) CreateNewPlayer(player Player) error {
+func (s *PlayerServiceImpl) CreateNewPlayer(player domain.Player) error {
 	if err := s.repo.CreateNewPlayer(player); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *PlayerServiceImpl) GetPlayerById(id uuid.UUID) (*Player, error) {
+func (s *PlayerServiceImpl) GetPlayerById(id uuid.UUID) (*domain.Player, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s *PlayerServiceImpl) GetAllPlayer() ([]Player, error) {
+func (s *PlayerServiceImpl) GetAllPlayer() ([]domain.Player, error) {
 	player, err := s.repo.GetAllPlayer()
 	if err != nil {
 		return nil, err
 	}
 
-	var playerResponses []Player
+	var playerResponses []domain.Player
 
 	for _, player := range player {
-		response := Player{
+		response := domain.Player{
 			PlayerID:   player.PlayerID,
 			PlayerName: player.PlayerName,
 			CreatedAt:  player.CreatedAt,
@@ -54,6 +56,6 @@ func (s *PlayerServiceImpl) GetAllPlayer() ([]Player, error) {
 //	return nil
 //}
 
-func NewPlayerService(repo PlayerRepository) *PlayerServiceImpl {
+func NewPlayerService(repo repository.PlayerRepository) *PlayerServiceImpl {
 	return &PlayerServiceImpl{repo: repo}
 }
