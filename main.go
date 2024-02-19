@@ -3,9 +3,8 @@ package main
 import (
 	"go_game/database"
 	_ "go_game/docs"
-
-	core "go_game/game/core/services"
-	"go_game/game/handler"
+	"go_game/middleware"
+	"go_game/router"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -44,12 +43,10 @@ func main() {
 		log.Fatal(e)
 	}
 	app.Get("/swagger/*", swagger.HandlerDefault)
-	playerRepo := handler.NewGormPlayerRepository(db)
-	playerService := core.NewPlayerService(playerRepo)
-	playerHandler := handler.NewHttpPlayerHandler(playerService)
 
-	app.Get("/player", playerHandler.GetAllPlayer)
-	app.Post("/player", playerHandler.CreateNewPlayer)
+	app.Get("/token", middleware.AuthorizationMiddleware)
+
+	router.SetupGameRouter(app, db)
 
 	_ = app.Listen(":8080")
 

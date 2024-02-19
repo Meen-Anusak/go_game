@@ -30,7 +30,6 @@ func (r *GormPlayerRepository) CreateNewPlayer(player domain.Player) error {
 		return result.Error
 	}
 	return nil
-
 }
 
 //// Create implements core.PlayerRepository.
