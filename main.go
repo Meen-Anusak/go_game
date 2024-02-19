@@ -1,13 +1,15 @@
 package main
 
 import (
+	"go_game/database"
+	_ "go_game/docs"
+
+	core "go_game/game/core/services"
+	"go_game/game/handler"
+
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/swagger"
-	"go_game/database"
-	_ "go_game/docs"
-	"go_game/game/core"
-	"go_game/game/handler"
 
 	"log"
 

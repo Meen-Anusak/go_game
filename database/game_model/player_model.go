@@ -8,7 +8,7 @@ import (
 
 type Player struct {
 	PlayerID   uuid.UUID `gorm:"type:uuid;primaryKey;default:uuid_generate_v4()"`
-	PlayerName string    `gorm:"size:15"`
+	PlayerName string    `gorm:"size:15;"`
 	CreatedAt  time.Time `gorm:"autoTimeCreate;"`
 	UpdatedAt  time.Time `gorm:"autoTimeUpdate;"`
 	DeletedAt  gorm.DeletedAt
