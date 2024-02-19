@@ -14,7 +14,8 @@ func SetupGameRouter(app *fiber.App, db *gorm.DB) {
 	playerService := core.NewPlayerService(playerRepo)
 	playerHandler := handler.NewHttpPlayerHandler(playerService)
 
-	app.Get("/player", middleware.Protect(), playerHandler.GetAllPlayer)
-	app.Post("/player", playerHandler.CreateNewPlayer)
+	player := app.Group("/player")
+	player.Get("", middleware.Protect(), playerHandler.GetAllPlayer)
+	player.Post("", playerHandler.CreateNewPlayer)
 
 }
