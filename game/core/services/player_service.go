@@ -1,4 +1,4 @@
-package core
+package services
 
 import (
 	"github.com/google/uuid"
@@ -14,6 +14,10 @@ type PlayerService interface {
 
 type PlayerServiceImpl struct {
 	repo repository.PlayerRepository
+}
+
+func NewPlayerService(repo repository.PlayerRepository) *PlayerServiceImpl {
+	return &PlayerServiceImpl{repo: repo}
 }
 
 func (s *PlayerServiceImpl) CreateNewPlayer(player domain.Player) error {
@@ -55,7 +59,3 @@ func (s *PlayerServiceImpl) GetAllPlayer() ([]domain.Player, error) {
 //	}
 //	return nil
 //}
-
-func NewPlayerService(repo repository.PlayerRepository) *PlayerServiceImpl {
-	return &PlayerServiceImpl{repo: repo}
-}

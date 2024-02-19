@@ -11,12 +11,15 @@ type GormPlayerRepository struct {
 	db *gorm.DB
 }
 
+func NewGormPlayerRepository(db *gorm.DB) repository.PlayerRepository {
+	return &GormPlayerRepository{db: db}
+}
+
 func (r *GormPlayerRepository) GetAllPlayer() ([]domain.Player, error) {
 	var player []domain.Player
 	if result := r.db.Find(&player); result.Error != nil {
 		return nil, result.Error
 	}
-
 	return player, nil
 }
 
@@ -40,7 +43,3 @@ func (r *GormPlayerRepository) CreateNewPlayer(player domain.Player) error {
 //	}
 //	return nil
 //}
-
-func NewGormPlayerRepository(db *gorm.DB) repository.PlayerRepository {
-	return &GormPlayerRepository{db: db}
-}

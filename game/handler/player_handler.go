@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-
 	"go_game/game/core/domain"
 	core "go_game/game/core/services"
 
@@ -15,10 +13,6 @@ type HttpPlayerHandler struct {
 
 func NewHttpPlayerHandler(service *core.PlayerServiceImpl) *HttpPlayerHandler {
 	return &HttpPlayerHandler{service: service}
-}
-
-type playerInterface struct {
-	PlayerName string `json:"player_name"`
 }
 
 // GetAllPlayer Handler functions
@@ -59,6 +53,5 @@ func (h *HttpPlayerHandler) CreateNewPlayer(ctx *fiber.Ctx) error {
 	if err := h.service.CreateNewPlayer(player); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	fmt.Println(player)
 	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "Create New Player Success"})
 }

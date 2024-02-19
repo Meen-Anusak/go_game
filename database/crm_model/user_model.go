@@ -9,6 +9,7 @@ import (
 type User struct {
 	UserID      uuid.UUID `gorm:"type:uuid;primaryKey;default:uuid_generate_v4();"`
 	UserName    string
+	Password    string
 	PhoneNumber string
 	Email       string
 	FirstName   string
@@ -19,5 +20,6 @@ type User struct {
 	Role        Role      `gorm:"ForeignKey:RoleId"`
 	CreatedAt   time.Time `gorm:"autoTimeCreate;"`
 	UpdatedAt   time.Time `gorm:"autoTimeUpdate;"`
-	DeletedAt   gorm.DeletedAt
+
+	DeletedAt gorm.DeletedAt
 }

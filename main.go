@@ -46,6 +46,7 @@ func main() {
 
 	app.Get("/token", middleware.AuthorizationMiddleware)
 
+	router.SetupAuthRouter(app, db)
 	router.SetupGameRouter(app, db)
 
 	_ = app.Listen(":8080")
