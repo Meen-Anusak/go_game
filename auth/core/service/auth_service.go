@@ -36,6 +36,20 @@ func (s *AuthServiceImpl) Register(user domain.User) error {
 	return nil
 }
 
+//func GetToken() string,error {
+//	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &jwt.StandardClaims{
+//		ExpiresAt: time.Now().Add(5 * time.Minute).Unix(),
+//	})
+//
+//	ss, err := token.SignedString([]byte(os.Getenv("SECRET_KEY")))
+//	if err != nil {
+//		return nil,err
+//	}
+//
+//	return ss,err
+//
+//}
+
 func HashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
 	if err != nil {

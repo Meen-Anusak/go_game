@@ -15,8 +15,11 @@ func NewGormAuthRepository(db *gorm.DB) repository.AuthRepository {
 }
 
 func (r *GormAuthRepository) Login(login domain.Login) error {
-	//TODO implement me
-	panic("implement me")
+	var user domain.User
+	if result := r.db.Find(&user, "username", login.Username); result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
 
 func (r *GormAuthRepository) Register(user domain.User) error {
