@@ -10,18 +10,23 @@ type GormUserRepository struct {
 	db *gorm.DB
 }
 
+func NewGormUserRepository(db *gorm.DB) repository.UserRepository {
+	return &GormUserRepository{db: db}
+}
+
 func (r *GormUserRepository) GetAllUser() ([]domain.User, error) {
-	//TODO implement me
-	panic("implement me")
+	var user []domain.User
+	if result := r.db.Find(&user); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return user, nil
+
 }
 
 func (r *GormUserRepository) GetUserById(id string) (*domain.User, error) {
 	//TODO implement me
 	panic("implement me")
-}
-
-func NewGormUserRepository(db *gorm.DB) repository.UserRepository {
-	return &GormUserRepository{db: db}
 }
 
 func (r *GormUserRepository) CreateNewUser(user domain.User) error {
