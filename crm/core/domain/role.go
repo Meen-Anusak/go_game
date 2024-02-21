@@ -2,16 +2,14 @@ package domain
 
 import (
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 	"time"
 )
 
 type Role struct {
-	RoleID            uuid.UUID `gorm:"type:uuid;primaryKey;default:uuid_generate_v4();"`
-	RoleName          string
-	PermissionGroupId uuid.UUID
-	PermissionGroup   PermissionGroup `gorm:"ForeignKey:PermissionGroupId"`
-	CreatedAt         time.Time       `gorm:"autoTimeCreate;"`
-	UpdatedAt         time.Time       `gorm:"autoTimeUpdate;"`
-	DeletedAt         gorm.DeletedAt
+	RoleID            uuid.UUID        `gorm:"type:uuid;primaryKey;default:uuid_generate_v4();" json:"role_id"`
+	RoleName          string           `json:"role_name"`
+	PermissionGroupId *uuid.UUID       `json:"permission_group_id"`
+	PermissionGroup   *PermissionGroup `gorm:"ForeignKey:PermissionGroupId" json:"permission_group"`
+	CreatedAt         time.Time        `gorm:"autoTimeCreate;" json:"created_at"`
+	UpdatedAt         time.Time        `gorm:"autoTimeUpdate;" json:"updated_at"`
 }

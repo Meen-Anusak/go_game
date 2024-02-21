@@ -13,11 +13,52 @@ definitions:
       username:
         type: string
     type: object
+  domain.Brand:
+    properties:
+      brand_id:
+        type: string
+      brand_name:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+    type: object
   domain.Login:
     properties:
       password:
         type: string
       username:
+        type: string
+    type: object
+  domain.Permission:
+    properties:
+      created_at:
+        type: string
+      permission_group_id:
+        type: string
+      permission_id:
+        type: string
+      permission_name:
+        type: string
+      permissionGroup:
+        $ref: '#/definitions/domain.PermissionGroup'
+      updated_at:
+        type: string
+    type: object
+  domain.PermissionGroup:
+    properties:
+      created_at:
+        type: string
+      permission:
+        items:
+          $ref: '#/definitions/domain.Permission'
+        type: array
+      permission_group_id:
+        type: string
+      permission_group_name:
+        type: string
+      updated_at:
         type: string
     type: object
   domain.Player:
@@ -27,6 +68,21 @@ definitions:
       player_id:
         type: string
       player_name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  domain.Role:
+    properties:
+      created_at:
+        type: string
+      permission_group:
+        $ref: '#/definitions/domain.PermissionGroup'
+      permission_group_id:
+        type: string
+      role_id:
+        type: string
+      role_name:
         type: string
       updated_at:
         type: string
@@ -46,6 +102,33 @@ definitions:
       user_id:
         type: string
       username:
+        type: string
+    type: object
+  go_game_crm_core_domain.User:
+    properties:
+      bradId:
+        type: string
+      brand:
+        $ref: '#/definitions/domain.Brand'
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/domain.Role'
+      role_id:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+      user_name:
         type: string
     type: object
 host: localhost:8080
@@ -225,6 +308,51 @@ paths:
       summary: GetAllPlayer
       tags:
       - Player
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: CreateNewUser
+      parameters:
+      - description: NewUser
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/go_game_crm_core_domain.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/go_game_crm_core_domain.User'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: CreateNewUser
+      tags:
+      - User
+  /user/list:
+    get:
+      consumes:
+      - application/json
+      description: GetAllUser
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/go_game_crm_core_domain.User'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: GetAllUser
+      tags:
+      - User
 schemes:
 - http
 securityDefinitions:

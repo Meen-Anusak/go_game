@@ -34,7 +34,7 @@ func (h *HttpUserHandler) GetAllUser(ctx *fiber.Ctx) error {
 // CreateNewUser godoc
 // @Summary CreateNewUser
 // @Description CreateNewUser
-// @Param player body domain.User true "NewUser"
+// @Param user body domain.User true "NewUser"
 // @Tags User
 // @Accept  application/json
 // @Produce  json
