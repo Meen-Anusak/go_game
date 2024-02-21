@@ -111,7 +111,13 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get details of all player
+      description: GetPlayerById
+      parameters:
+      - description: Player ID
+        in: path
+        name: player_id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -123,7 +129,32 @@ paths:
             type: array
       security:
       - ApiKeyAuth: []
-      summary: Get all player
+      summary: GetPlayerById
+      tags:
+      - Player
+    patch:
+      consumes:
+      - application/json
+      description: UpdatePlayer
+      parameters:
+      - description: UpdatePlayer
+        in: body
+        name: player
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Player'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Player'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: UpdatePlayer
       tags:
       - Player
     post:
@@ -131,9 +162,9 @@ paths:
       - application/json
       description: CreateNewPlayer
       parameters:
-      - description: Login
+      - description: NewPlayer
         in: body
-        name: login
+        name: player
         required: true
         schema:
           $ref: '#/definitions/domain.Player'
@@ -149,6 +180,25 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: CreateNewPlayer
+      tags:
+      - Player
+  /player/list:
+    get:
+      consumes:
+      - application/json
+      description: GetAllPlayer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Player'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: GetAllPlayer
       tags:
       - Player
 schemes:

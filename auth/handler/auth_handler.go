@@ -3,14 +3,14 @@ package handler
 import (
 	"github.com/gofiber/fiber/v2"
 	"go_game/auth/core/domain"
-	"go_game/auth/core/service"
+	"go_game/auth/core/services"
 )
 
 type HttpAuthHandler struct {
-	service service.AuthService
+	service services.AuthService
 }
 
-func NewHttpAuthHandler(service *service.AuthServiceImpl) *HttpAuthHandler {
+func NewHttpAuthHandler(service *services.AuthServiceImpl) *HttpAuthHandler {
 	return &HttpAuthHandler{service: service}
 }
 

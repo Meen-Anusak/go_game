@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"github.com/google/uuid"
 	"go_game/game/core/domain"
 	"go_game/game/core/repository"
 	"gorm.io/gorm"
@@ -23,9 +22,12 @@ func (r *GormPlayerRepository) GetAllPlayer() ([]domain.Player, error) {
 	return player, nil
 }
 
-func (r *GormPlayerRepository) GetPlayerById(id uuid.UUID) (*domain.Player, error) {
-	//TODO implement me
-	panic("implement me")
+func (r *GormPlayerRepository) GetPlayerById(id string) (*domain.Player, error) {
+	var player domain.Player
+	if result := r.db.First(&player, "player_id", id); result.Error != nil {
+		return nil, result.Error
+	}
+	return &player, nil
 }
 
 func (r *GormPlayerRepository) CreateNewPlayer(player domain.Player) error {
@@ -35,11 +37,12 @@ func (r *GormPlayerRepository) CreateNewPlayer(player domain.Player) error {
 	return nil
 }
 
-//// Create implements core.PlayerRepository.
-//func (r *GormPlayerRepository) Create(player core.Player) error {
-//	if result := r.db.Create(&player); result.Error != nil {
-//		// Handle database errors
-//		return result.Error
-//	}
-//	return nil
-//}
+func (r *GormPlayerRepository) UpdatePlayer(player domain.Player) (*domain.Player, error) {
+	var playerDB domain.Player
+	if result := r.db.First(&playerDB, "player_id", player.PlayerID); result.Error != nil {
+		return nil, result.Error
+	}
+	playerDB.PlayerName = player.PlayerName
+
+	return &playerDB, nil
+}

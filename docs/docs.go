@@ -106,7 +106,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get details of all player",
+                "description": "GetPlayerById",
                 "consumes": [
                     "application/json"
                 ],
@@ -116,7 +116,16 @@ const docTemplate = `{
                 "tags": [
                     "Player"
                 ],
-                "summary": "Get all player",
+                "summary": "GetPlayerById",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Player ID",
+                        "name": "player_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -148,8 +157,8 @@ const docTemplate = `{
                 "summary": "CreateNewPlayer",
                 "parameters": [
                     {
-                        "description": "Login",
-                        "name": "login",
+                        "description": "NewPlayer",
+                        "name": "player",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -157,6 +166,77 @@ const docTemplate = `{
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Player"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "UpdatePlayer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Player"
+                ],
+                "summary": "UpdatePlayer",
+                "parameters": [
+                    {
+                        "description": "UpdatePlayer",
+                        "name": "player",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Player"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Player"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/player/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GetAllPlayer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Player"
+                ],
+                "summary": "GetAllPlayer",
                 "responses": {
                     "200": {
                         "description": "OK",

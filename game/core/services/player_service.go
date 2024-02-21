@@ -1,15 +1,15 @@
 package services
 
 import (
-	"github.com/google/uuid"
 	"go_game/game/core/domain"
 	"go_game/game/core/repository"
 )
 
 type PlayerService interface {
 	GetAllPlayer() ([]domain.Player, error)
-	GetPlayerById(id uuid.UUID) (*domain.Player, error)
+	GetPlayerById(id string) (*domain.Player, error)
 	CreateNewPlayer(player domain.Player) error
+	UpdatePlayer(player domain.Player) (*domain.Player, error)
 }
 
 type PlayerServiceImpl struct {
@@ -27,9 +27,13 @@ func (s *PlayerServiceImpl) CreateNewPlayer(player domain.Player) error {
 	return nil
 }
 
-func (s *PlayerServiceImpl) GetPlayerById(id uuid.UUID) (*domain.Player, error) {
-	//TODO implement me
-	panic("implement me")
+func (s *PlayerServiceImpl) GetPlayerById(id string) (*domain.Player, error) {
+	player, err := s.repo.GetPlayerById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return player, nil
 }
 
 func (s *PlayerServiceImpl) GetAllPlayer() ([]domain.Player, error) {
@@ -53,9 +57,10 @@ func (s *PlayerServiceImpl) GetAllPlayer() ([]domain.Player, error) {
 	return playerResponses, nil
 }
 
-//func (s *playerServiceImpl) CreateNewPlayer(player Player) error {
-//	if err := s.repo.Create(player); err != nil {
-//		return err
-//	}
-//	return nil
-//}
+func (s *PlayerServiceImpl) UpdatePlayer(player domain.Player) (*domain.Player, error) {
+	result, err := s.repo.UpdatePlayer(player)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
