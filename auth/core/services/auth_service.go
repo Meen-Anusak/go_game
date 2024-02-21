@@ -36,6 +36,7 @@ func (s *AuthServiceImpl) Login(login domain.Login) (*domain.Auth, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(5 * time.Minute).Unix(),
+		Id:        user.UserID.String(),
 	})
 
 	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET_KEY")))

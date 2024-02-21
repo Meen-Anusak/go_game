@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+	"go_game/database/crm_model"
 	"go_game/game/core/domain"
 	service "go_game/game/core/services"
 
@@ -25,6 +27,8 @@ func NewHttpPlayerHandler(service *service.PlayerServiceImpl) *HttpPlayerHandler
 // @Success 200 {array} domain.Player
 // @Router /player/list [get]
 func (h *HttpPlayerHandler) GetAllPlayer(ctx *fiber.Ctx) error {
+	user := ctx.Locals("user").(crm_model.UserResponse)
+	fmt.Println(user)
 	player, err := h.service.GetAllPlayer()
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
