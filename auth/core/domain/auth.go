@@ -1,6 +1,9 @@
 package domain
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+	"time"
+)
 
 type Login struct {
 	Username string `json:"username"`
@@ -15,4 +18,12 @@ type User struct {
 	PhoneNumber string    `json:"phone_number"`
 	FirstName   string    `json:"first_Name"`
 	LastName    string    `json:"last_name"`
+}
+
+type Auth struct {
+	UserName    string    `json:"username"`
+	Email       string    `json:"email"`
+	PhoneNumber string    `json:"phone_number"`
+	Token       string    `json:"token"`
+	Expired     time.Time `json:"expired"`
 }

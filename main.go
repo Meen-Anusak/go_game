@@ -3,7 +3,6 @@ package main
 import (
 	"go_game/database"
 	_ "go_game/docs"
-	"go_game/middleware"
 	"go_game/router"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -44,7 +43,7 @@ func main() {
 	}
 	app.Get("/swagger/*", swagger.HandlerDefault)
 
-	app.Get("/token", middleware.AuthorizationMiddleware)
+	//app.Get("/token", middleware.AuthorizationMiddleware)
 
 	router.SetupAuthRouter(app, db)
 	router.SetupGameRouter(app, db)

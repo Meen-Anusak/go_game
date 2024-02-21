@@ -14,6 +14,16 @@ func NewHttpAuthHandler(service *service.AuthServiceImpl) *HttpAuthHandler {
 	return &HttpAuthHandler{service: service}
 }
 
+// Register godoc
+// @Summary Register
+// @Description Register
+// @Param register body domain.Login true "Register"
+// @Tags Auth
+// @Accept  application/json
+// @Produce  json
+// @Security ApiKeyAuth
+// @Success 200 {array} domain.User
+// @Router /auth/register [post]
 func (h *HttpAuthHandler) Register(ctx *fiber.Ctx) error {
 	var newUser domain.User
 
@@ -27,6 +37,27 @@ func (h *HttpAuthHandler) Register(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "Create New User Success"})
 }
 
+// Login godoc
+// @Summary Login
+// @Description Login
+// @Param login body domain.Login true "Login"
+// @Tags Auth
+// @Accept  application/json
+// @Produce  json
+// @Security ApiKeyAuth
+// @Success 200 {array} domain.Auth
+// @Router /auth/login [post]
 func (h *HttpAuthHandler) Login(ctx *fiber.Ctx) error {
-	panic("Login Handler")
+	var login domain.Login
+
+	if err := ctx.BodyParser(&login); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid request"})
+	}
+	user, err := h.service.Login(login)
+
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return ctx.Status(fiber.StatusOK).JSON(user)
+
 }

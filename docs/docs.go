@@ -15,6 +15,90 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/login": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Login",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Auth"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Register",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "parameters": [
+                    {
+                        "description": "Register",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/go_game_auth_core_domain.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/player": {
             "get": {
                 "security": [
@@ -51,7 +135,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Create a new player",
+                "description": "CreateNewPlayer",
                 "consumes": [
                     "application/json"
                 ],
@@ -61,15 +145,15 @@ const docTemplate = `{
                 "tags": [
                     "Player"
                 ],
-                "summary": "create a new player",
+                "summary": "CreateNewPlayer",
                 "parameters": [
                     {
-                        "description": "Player Data",
-                        "name": "PlayerData",
+                        "description": "Login",
+                        "name": "login",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.playerInterface"
+                            "$ref": "#/definitions/domain.Player"
                         }
                     }
                 ],
@@ -77,7 +161,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Player"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Player"
+                            }
                         }
                     }
                 }
@@ -85,6 +172,37 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "domain.Auth": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "expired": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.Login": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.Player": {
             "type": "object",
             "properties": {
@@ -102,10 +220,28 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.playerInterface": {
+        "go_game_auth_core_domain.User": {
             "type": "object",
             "properties": {
-                "player_name": {
+                "email": {
+                    "type": "string"
+                },
+                "first_Name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }

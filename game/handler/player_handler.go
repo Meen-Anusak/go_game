@@ -34,16 +34,15 @@ func (h *HttpPlayerHandler) GetAllPlayer(ctx *fiber.Ctx) error {
 
 }
 
-// CreateNewPlayer Handler functions
 // CreateNewPlayer godoc
-// @Description Create a new player
-// @Summary create a new player
+// @Summary CreateNewPlayer
+// @Description CreateNewPlayer
+// @Param login body domain.Player true "Login"
 // @Tags Player
-// @Accept application/json
-// @Produce json
-// @Param PlayerData body playerInterface true "Player Data"
-// @Success 200 {object} domain.Player
+// @Accept  application/json
+// @Produce  json
 // @Security ApiKeyAuth
+// @Success 200 {array} domain.Player
 // @Router /player [post]
 func (h *HttpPlayerHandler) CreateNewPlayer(ctx *fiber.Ctx) error {
 	var player domain.Player

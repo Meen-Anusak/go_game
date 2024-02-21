@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func Protect() func(ctx *fiber.Ctx) error {
+func AuthMiddleWare() func(ctx *fiber.Ctx) error {
 	signature := []byte(os.Getenv("SECRET_KEY"))
 	return func(ctx *fiber.Ctx) error {
 		auth := ctx.Get("Authorization")

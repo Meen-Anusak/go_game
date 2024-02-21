@@ -1,5 +1,25 @@
 basePath: /
 definitions:
+  domain.Auth:
+    properties:
+      email:
+        type: string
+      expired:
+        type: string
+      phone_number:
+        type: string
+      token:
+        type: string
+      username:
+        type: string
+    type: object
+  domain.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   domain.Player:
     properties:
       created_at:
@@ -11,9 +31,21 @@ definitions:
       updated_at:
         type: string
     type: object
-  handler.playerInterface:
+  go_game_auth_core_domain.User:
     properties:
-      player_name:
+      email:
+        type: string
+      first_Name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      user_id:
+        type: string
+      username:
         type: string
     type: object
 host: localhost:8080
@@ -23,6 +55,58 @@ info:
   title: Game API
   version: "1.0"
 paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Login
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Auth'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Login
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: Register
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/go_game_auth_core_domain.User'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Register
+      tags:
+      - Auth
   /player:
     get:
       consumes:
@@ -45,24 +129,26 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create a new player
+      description: CreateNewPlayer
       parameters:
-      - description: Player Data
+      - description: Login
         in: body
-        name: PlayerData
+        name: login
         required: true
         schema:
-          $ref: '#/definitions/handler.playerInterface'
+          $ref: '#/definitions/domain.Player'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Player'
+            items:
+              $ref: '#/definitions/domain.Player'
+            type: array
       security:
       - ApiKeyAuth: []
-      summary: create a new player
+      summary: CreateNewPlayer
       tags:
       - Player
 schemes:

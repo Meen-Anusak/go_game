@@ -14,12 +14,12 @@ func NewGormAuthRepository(db *gorm.DB) repository.AuthRepository {
 	return &GormAuthRepository{db: db}
 }
 
-func (r *GormAuthRepository) Login(login domain.Login) error {
+func (r *GormAuthRepository) Login(login domain.Login) (*domain.User, error) {
 	var user domain.User
-	if result := r.db.Find(&user, "username", login.Username); result.Error != nil {
-		return result.Error
+	if result := r.db.Find(&user, "user_name", login.Username); result.Error != nil {
+		return nil, result.Error
 	}
-	return nil
+	return &user, nil
 }
 
 func (r *GormAuthRepository) Register(user domain.User) error {
