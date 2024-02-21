@@ -94,3 +94,21 @@ func (h *HttpPlayerHandler) UpdatePlayer(ctx *fiber.Ctx) error {
 	}
 	return ctx.Status(fiber.StatusOK).JSON(updatePlayer)
 }
+
+// DeletePlayer godoc
+// @Summary DeletePlayer
+// @Description DeletePlayer
+// @Param player_id path string true "Player ID"
+// @Tags Player
+// @Accept  application/json
+// @Produce  json
+// @Security ApiKeyAuth
+// @Success 200 {array} domain.Player
+// @Router /player [delete]
+func (h *HttpPlayerHandler) DeletePlayer(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	if err := h.service.DeletePlayer(id); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid request"})
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"message": "delete player success"})
+}

@@ -46,3 +46,11 @@ func (r *GormPlayerRepository) UpdatePlayer(player domain.Player) (*domain.Playe
 
 	return &playerDB, nil
 }
+
+func (r *GormPlayerRepository) DeletePlayer(id string) error {
+	var player domain.Player
+	if result := r.db.Delete(&player, "player_id", id); result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

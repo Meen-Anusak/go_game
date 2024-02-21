@@ -9,4 +9,6 @@ type PlayerRepository interface {
 	GetPlayerById(id string) (*domain.Player, error)
 	CreateNewPlayer(player domain.Player) error
 	UpdatePlayer(player domain.Player) (*domain.Player, error)
+
+	DeletePlayer(id string) error
 }

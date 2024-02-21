@@ -10,6 +10,8 @@ type PlayerService interface {
 	GetPlayerById(id string) (*domain.Player, error)
 	CreateNewPlayer(player domain.Player) error
 	UpdatePlayer(player domain.Player) (*domain.Player, error)
+
+	DeletePlayer(id string) error
 }
 
 type PlayerServiceImpl struct {
@@ -63,4 +65,11 @@ func (s *PlayerServiceImpl) UpdatePlayer(player domain.Player) (*domain.Player, 
 		return nil, err
 	}
 	return result, nil
+}
+
+func (s *PlayerServiceImpl) DeletePlayer(id string) error {
+	if err := s.repo.DeletePlayer(id); err != nil {
+		return err
+	}
+	return nil
 }
