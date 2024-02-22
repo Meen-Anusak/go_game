@@ -18,16 +18,24 @@ definitions:
       brand_id:
         type: string
       brand_name:
+        maxLength: 12
+        minLength: 3
         type: string
       created_at:
         type: string
       updated_at:
         type: string
+    required:
+    - brand_name
     type: object
   domain.BrandRequestSchema:
     properties:
       brand_name:
+        maxLength: 12
+        minLength: 3
         type: string
+    required:
+    - brand_name
     type: object
   domain.BrandResponseSchema:
     properties:
@@ -40,12 +48,99 @@ definitions:
       updated_at:
         type: string
     type: object
+  domain.Customer:
+    properties:
+      activityAt:
+        type: string
+      authToken:
+        type: string
+      brand:
+        $ref: '#/definitions/domain.Brand'
+      brandId:
+        type: string
+      createdAt:
+        type: string
+      customerID:
+        type: string
+      customerName:
+        type: string
+      email:
+        type: string
+      fistName:
+        type: string
+      lastName:
+        type: string
+      phoneNumber:
+        type: string
+      platFrom:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  domain.CustomerRequestSchema:
+    properties:
+      customer_name:
+        minLength: 3
+        type: string
+      email:
+        minLength: 3
+        type: string
+      fist_name:
+        minLength: 3
+        type: string
+      last_name:
+        minLength: 3
+        type: string
+      phone_number:
+        maxLength: 10
+        minLength: 10
+        type: string
+    required:
+    - customer_name
+    - email
+    - fist_name
+    - last_name
+    - phone_number
+    type: object
+  domain.CustomerResponseSchema:
+    properties:
+      createdAt:
+        type: string
+      customer_name:
+        minLength: 3
+        type: string
+      email:
+        minLength: 3
+        type: string
+      fist_name:
+        minLength: 3
+        type: string
+      last_name:
+        minLength: 3
+        type: string
+      phone_number:
+        maxLength: 10
+        minLength: 10
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - customer_name
+    - email
+    - fist_name
+    - last_name
+    - phone_number
+    type: object
   domain.Login:
     properties:
       password:
+        minLength: 8
         type: string
       username:
         type: string
+    required:
+    - password
+    - username
     type: object
   domain.Permission:
     properties:
@@ -84,9 +179,12 @@ definitions:
       player_id:
         type: string
       player_name:
+        minLength: 3
         type: string
       updated_at:
         type: string
+    required:
+    - player_name
     type: object
   domain.Role:
     properties:
@@ -129,12 +227,17 @@ definitions:
       created_at:
         type: string
       email:
+        minLength: 3
         type: string
       first_name:
+        minLength: 3
         type: string
       last_name:
+        minLength: 3
         type: string
       phone_number:
+        maxLength: 10
+        minLength: 10
         type: string
       role:
         $ref: '#/definitions/domain.Role'
@@ -145,7 +248,14 @@ definitions:
       user_id:
         type: string
       user_name:
+        minLength: 3
         type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - phone_number
+    - user_name
     type: object
 host: localhost:8080
 info:
@@ -251,6 +361,50 @@ paths:
       summary: GetAllBrand
       tags:
       - Brand
+  /customer:
+    get:
+      consumes:
+      - application/json
+      description: GetAllCustomer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Customer'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: GetAllCustomer
+      tags:
+      - Customer
+    post:
+      consumes:
+      - application/json
+      description: CreateNewCustomer
+      parameters:
+      - description: NewCustomer
+        in: body
+        name: brand
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CustomerRequestSchema'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.CustomerResponseSchema'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: CreateNewCustomer
+      tags:
+      - Customer
   /player:
     delete:
       consumes:

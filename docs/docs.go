@@ -172,6 +172,77 @@ const docTemplate = `{
                 }
             }
         },
+        "/customer": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GetAllCustomer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "GetAllCustomer",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Customer"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "CreateNewCustomer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "CreateNewCustomer",
+                "parameters": [
+                    {
+                        "description": "NewCustomer",
+                        "name": "brand",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.CustomerRequestSchema"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.CustomerResponseSchema"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/player": {
             "get": {
                 "security": [
@@ -458,12 +529,17 @@ const docTemplate = `{
         },
         "domain.Brand": {
             "type": "object",
+            "required": [
+                "brand_name"
+            ],
             "properties": {
                 "brand_id": {
                     "type": "string"
                 },
                 "brand_name": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 12,
+                    "minLength": 3
                 },
                 "created_at": {
                     "type": "string"
@@ -475,9 +551,14 @@ const docTemplate = `{
         },
         "domain.BrandRequestSchema": {
             "type": "object",
+            "required": [
+                "brand_name"
+            ],
             "properties": {
                 "brand_name": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 12,
+                    "minLength": 3
                 }
             }
         },
@@ -498,11 +579,132 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.Login": {
+        "domain.Customer": {
             "type": "object",
             "properties": {
-                "password": {
+                "activityAt": {
                     "type": "string"
+                },
+                "authToken": {
+                    "type": "string"
+                },
+                "brand": {
+                    "$ref": "#/definitions/domain.Brand"
+                },
+                "brandId": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "customerID": {
+                    "type": "string"
+                },
+                "customerName": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fistName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "platFrom": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.CustomerRequestSchema": {
+            "type": "object",
+            "required": [
+                "customer_name",
+                "email",
+                "fist_name",
+                "last_name",
+                "phone_number"
+            ],
+            "properties": {
+                "customer_name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "email": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "fist_name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "last_name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "phone_number": {
+                    "type": "string",
+                    "maxLength": 10,
+                    "minLength": 10
+                }
+            }
+        },
+        "domain.CustomerResponseSchema": {
+            "type": "object",
+            "required": [
+                "customer_name",
+                "email",
+                "fist_name",
+                "last_name",
+                "phone_number"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "customer_name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "email": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "fist_name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "last_name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "phone_number": {
+                    "type": "string",
+                    "maxLength": 10,
+                    "minLength": 10
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.Login": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "minLength": 8
                 },
                 "username": {
                     "type": "string"
@@ -557,6 +759,9 @@ const docTemplate = `{
         },
         "domain.Player": {
             "type": "object",
+            "required": [
+                "player_name"
+            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -565,7 +770,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "player_name": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                 },
                 "updated_at": {
                     "type": "string"
@@ -623,6 +829,13 @@ const docTemplate = `{
         },
         "go_game_crm_core_domain.User": {
             "type": "object",
+            "required": [
+                "email",
+                "first_name",
+                "last_name",
+                "phone_number",
+                "user_name"
+            ],
             "properties": {
                 "bradId": {
                     "type": "string"
@@ -634,16 +847,21 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                 },
                 "first_name": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                 },
                 "last_name": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                 },
                 "phone_number": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 10,
+                    "minLength": 10
                 },
                 "role": {
                     "$ref": "#/definitions/domain.Role"
@@ -658,7 +876,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_name": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                 }
             }
         }
