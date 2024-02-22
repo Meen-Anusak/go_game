@@ -5,6 +5,7 @@ import (
 	"go_game/database/crm_model"
 	"go_game/game/core/domain"
 	service "go_game/game/core/services"
+	"go_game/helper"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -51,6 +52,13 @@ func (h *HttpPlayerHandler) CreateNewPlayer(ctx *fiber.Ctx) error {
 	var player domain.Player
 	if err := ctx.BodyParser(&player); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid request"})
+	}
+	if err := helper.Validate(player); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"code":         "V-422",
+			"code_message": "validation error",
+			"data":         err,
+		})
 	}
 	if err := h.service.CreateNewPlayer(player); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})

@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go_game/auth/core/domain"
 	"go_game/auth/core/services"
+	"go_game/helper"
 )
 
 type HttpAuthHandler struct {
@@ -52,6 +53,13 @@ func (h *HttpAuthHandler) Login(ctx *fiber.Ctx) error {
 
 	if err := ctx.BodyParser(&login); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid request"})
+	}
+	if err := helper.Validate(login); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"code":         "V-422",
+			"code_message": "validation error",
+			"data":         err,
+		})
 	}
 	user, err := h.service.Login(login)
 
