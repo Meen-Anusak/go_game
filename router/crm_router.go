@@ -12,13 +12,20 @@ import (
 )
 
 func SetupCrmRouter(app *fiber.App, db *gorm.DB) {
-	crmRep := handler.NewGormUserRepository(db)
-	crmService := services.NewUserService(crmRep)
-	crmHandler := handler.NewHttpUserHandler(crmService)
+	userRep := handler.NewGormUserRepository(db)
+	userService := services.NewUserService(userRep)
+	userHandler := handler.NewHttpUserHandler(userService)
 
-	crmRouter := app.Group("/user")
+	brandRep := handler.NewGormBrandRepository(db)
+	brandService := services.NewBrandService(brandRep)
+	brandHandler := handler.NewHttpBrandHandler(brandService)
 
-	crmRouter.Get("/list", middleware.AuthMiddleWare(), crmHandler.GetAllUser)
-	crmRouter.Post("/", middleware.AuthMiddleWare(), crmHandler.CreateNewUser)
+	userRouter := app.Group("/user")
+	userRouter.Get("/list", middleware.AuthMiddleWare(), userHandler.GetAllUser)
+	userRouter.Post("/", middleware.AuthMiddleWare(), userHandler.CreateNewUser)
+
+	brandRouter := app.Group("/brand")
+	brandRouter.Get("/list", brandHandler.GetAllBrand)
+	brandRouter.Post("/", brandHandler.CreateNewBrand)
 
 }

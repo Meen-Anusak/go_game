@@ -99,6 +99,79 @@ const docTemplate = `{
                 }
             }
         },
+        "/brand": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "CreateNewBrand",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "CreateNewBrand",
+                "parameters": [
+                    {
+                        "description": "NewBrand",
+                        "name": "brand",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.BrandRequestSchema"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.BrandResponseSchema"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/brand/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GetAllBrand",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "GetAllBrand",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Brand"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/player": {
             "get": {
                 "security": [
@@ -384,6 +457,31 @@ const docTemplate = `{
             }
         },
         "domain.Brand": {
+            "type": "object",
+            "properties": {
+                "brand_id": {
+                    "type": "string"
+                },
+                "brand_name": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.BrandRequestSchema": {
+            "type": "object",
+            "properties": {
+                "brand_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.BrandResponseSchema": {
             "type": "object",
             "properties": {
                 "brand_id": {

@@ -24,6 +24,22 @@ definitions:
       updated_at:
         type: string
     type: object
+  domain.BrandRequestSchema:
+    properties:
+      brand_name:
+        type: string
+    type: object
+  domain.BrandResponseSchema:
+    properties:
+      brand_id:
+        type: string
+      brand_name:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+    type: object
   domain.Login:
     properties:
       password:
@@ -190,6 +206,51 @@ paths:
       summary: Register
       tags:
       - Auth
+  /brand:
+    post:
+      consumes:
+      - application/json
+      description: CreateNewBrand
+      parameters:
+      - description: NewBrand
+        in: body
+        name: brand
+        required: true
+        schema:
+          $ref: '#/definitions/domain.BrandRequestSchema'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.BrandResponseSchema'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: CreateNewBrand
+      tags:
+      - Brand
+  /brand/list:
+    get:
+      consumes:
+      - application/json
+      description: GetAllBrand
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Brand'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: GetAllBrand
+      tags:
+      - Brand
   /player:
     delete:
       consumes:
