@@ -1,10 +1,14 @@
 package handler
 
 import (
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"go_game/crm/core/domain"
 	"go_game/crm/core/services"
+	"go_game/helper"
 )
+
+var Validator = validator.New()
 
 type HttpBrandHandler struct {
 	service services.BrandService
@@ -46,7 +50,13 @@ func (h *HttpBrandHandler) CreateNewBrand(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&brand); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
-
+	if err := helper.Validate(brand); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"code":         "V-422",
+			"code_message": "validation error",
+			"data":         err,
+		})
+	}
 	newBrand, err := h.service.CreateNewBrand(brand)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
