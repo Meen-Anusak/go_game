@@ -31,7 +31,13 @@ func (h *HttpAuthHandler) Register(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&newUser); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid request"})
 	}
-
+	if err := helper.Validate(newUser); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"code":         "V-422",
+			"code_message": "validation error",
+			"data":         err,
+		})
+	}
 	if err := h.service.Register(newUser); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
